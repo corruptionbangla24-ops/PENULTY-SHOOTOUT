@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PENALTY SHOOTOUT - ROYAL FOOTBALL CRASH</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 🎰 PREMIUM HEADER CONTROLLER PANEL -->
+    <div class="header">
+        <div class="brand">
+            <div class="name">PENALTY SHOT</div>
+            <div class="game">STREAK MULTIPLIER CRASH</div>
+        </div>
+        <div class="header-right">
+            <button class="sound-btn" id="mute-btn" onclick="toggleMute()">🔊</button>
+            <div class="balance-box">৳ <span id="user-balance">0.00</span></div>
+        </div>
+    </div>
+
+    <!-- 📈 GOAL STREAK MULTIPLIER PROGRESSION CHIPS -->
+    <div class="streak-progress-bar" id="streak-meter-box">
+        <div class="streak-node active" id="node-0">x1.92</div>
+        <div class="streak-node" id="node-1">x3.84</div>
+        <div class="streak-node" id="node-2">x7.68</div>
+        <div class="streak-node" id="node-3">x15.36</div>
+        <div class="streak-node" id="node-4">x30.72</div>
+        <div class="streak-node" id="node-5">x100.00</div>
+    </div>
+
+    <!-- ⚽ INTERACTIVE NET GOAL POST TARGET GRID -->
+    <div class="penalty-arcade-zone">
+        <div class="football-canvas-frame">
+            <!-- Goalkeeper Center Avatar Node -->
+            <div class="goalkeeper-avatar" id="keeper-node">🧤</div>
+
+            <!-- 5 Precision Shooting Target Target Matrix -->
+            <div class="target-slot top-left" onclick="handlePenaltyKickTrigger('TL')">🎯</div>
+            <div class="target-slot top-right" onclick="handlePenaltyKickTrigger('TR')">🎯</div>
+            <div class="target-slot center-net" onclick="handlePenaltyKickTrigger('C')">🎯</div>
+            <div class="target-slot bottom-left" onclick="handlePenaltyKickTrigger('BL')">🎯</div>
+            <div class="target-slot bottom-right" onclick="handlePenaltyKickTrigger('BR')">🎯</div>
+
+            <!-- Kinetic Fired Soccer Ball Primitive Node -->
+            <div class="soccer-ball" id="ball-node">⚽</div>
+        </div>
+    </div>
+
+    <!-- 🏆 SCOREBOARD LIVE STATUS DISPLAY ENGINE -->
+    <div class="win-status-container" id="win-status-box">
+        <span id="win-text-msg">Select bet value, tap any target zone on the net to shoot and build your profit streak!</span>
+    </div>
+
+    <!-- 🎛️ STAKE PARAMETERS CONTROL BOARD -->
+    <div class="footer-controls">
+        <div class="play-section">
+            <div class="bet-selector">
+                <button class="bet-btn-nav" onclick="adjustStakeCaliber('minus')">−</button>
+                <div style="text-align: center; width: 60px;">
+                    <div style="font-size: 9px; color: #aaa; font-weight: bold;">STAKE</div>
+                    <div style="font-size: 15px; font-weight: 900; color: #fff;" id="bet-display">৳৫০</div>
+                </div>
+                <button class="bet-btn-nav" onclick="adjustStakeCaliber('plus')">+</button>
+            </div>
+
+            <!-- Cashout Profit Action Button Component -->
+            <button class="play-btn cashout-active" id="cashout-btn" onclick="handleManualCashoutCollect()" disabled>CASH OUT</button>
+        </div>
+    </div>
+
+    <!-- 🔌 SOCKET GATEWAY COUPLING AND TRANSACTION ROUTER -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlUserId = urlParams.get('userId') || urlParams.get('id') || urlParams.get('username') || "guest_user";
+        const urlWallet = urlParams.get('wallet') || "main";
+        
+        const SERVER_URL = window.location.origin;
+
+        let balance = 0.00;
+        let currentBet = 50; 
+        let currentStreak = 0; 
+        let isKickingAction = false;
+        let isRoundActive = false;
+        let isMuted = false;
+
+        // 🧠 SECURE KINETIC BALL TRANSACTION MOTOR RUNTIME
+        async function handlePenaltyKickTrigger(targetSlotZone) {
+            if (isKickingAction) return;
+            isKickingAction = true;
+
+            playAudio('spin');
+            animateBallTrajectoryAction(targetSlotZone);
+
+            try {
+                // Phase 1: Deduct initial seed stake if no ongoing active streak session is present
+                if (!isRoundActive) {
+                    const shootResponse = await fetch(`${SERVER_URL}/api/penalty-shoot`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            userId: urlUserId,
+                            betAmount: parseFloat(currentBet),
+                            wallet: urlWallet
+                        })
+                    });
+                    const shootData = await shootResponse.json();
+
+                    if (!shootData || shootData.success !== true) {
+                        alert(shootData.message || "❌ Stake Declined! Check BDT Account Balance.");
+                        resetBallToPenaltySpot();
+                        isKickingAction = false;
+                        return;
+                    }
+                    isRoundActive = true;
+                    document.getElementById("cashout-btn").disabled = false;
+                }
+
+                // Phase 2: Validate goal convergence hit mapping against 95% server RTP rules
+                const kickResponse = await fetch(`${SERVER_URL}/api/penalty-kick`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: urlUserId,
+                        currentStreak: currentStreak,
+                        betAmount: parseFloat(currentBet),
+                        targetSlot: targetSlotZone,
+                        wallet: urlWallet
+                    })
+                });
+                const kickData = await kickResponse.json();
+
+                setTimeout(() => {
+                    const msgBox = document.getElementById("win-status-box");
+                    const textMsg = document.getElementById("win-text-msg");
+
+                    if (kickData && kickData.success === true && kickData.goal === true) {
+                        // Goal successfully converted macro track execution node
+                        playAudio('win');
+                        updateStreakMeterVisualArrays();
+                        currentStreak++;
+                        
+                        msgBox.className = "win-status-container win-glow-bar";
+                        textMsg.innerText = `⚽ GOAL!! Streak level up to tier x${kickData.odds}. Tap next target or click CASH OUT!`;
+                        
+                        if(currentStreak >= 6) { // Max payout threshold auto-cap collector trigger lock
+                            handleManualCashoutCollect();
+                        }
+                    } else {
+                        // Goalkeeper save deflection block execution pipeline
+                        playAudio('click');
+                        msgBox.className = "win-status-container lose-glow-bar";
+                        textMsg.innerText = `🧤 SAVED! Keeper blocked the strike. Streak reset to zero.`;
+                        clearActiveStreakContexts();
+                    }
+                    resetBallToPenaltySpot();
+                    isKickingAction = false;
+                }, 700);
+
+            } catch (err) {
+                console.error("Football transaction pipeline sync drop exception", err);
+                resetBallToPenaltySpot();
+                isKickingAction = false;
+            }
+        }
+
+        function animateBallTrajectoryAction(zone) {
+            const ball = document.getElementById("ball-node");
+            const keeper = document.getElementById("keeper-node");
+            
+            // Randomize diving offsets for goalie display layer
+            const dives = ["dive-left", "dive-right", "stay-center"];
+            keeper.className = `goalkeeper-avatar ${dives[Math.floor(Math.random() * dives.length)]}`;
+            ball.className = `soccer-ball ball-strike-${zone.toLowerCase()}`;
+        }
+
+        function resetBallToPenaltySpot() {
+            document.getElementById("ball-node").className = "soccer-ball";
+            document.getElementById("keeper-node").className = "goalkeeper-avatar";
+        }
+
+        function updateStreakMeterVisualArrays() {
+            for (let i = 0; i < 6; i++) {
+                document.getElementById(`node-${i}`).className = (i === currentStreak) ? "streak-node active" : "streak-node";
+            }
+        }
+
+        function clearActiveStreakContexts() {
+            currentStreak = 0;
+            isRoundActive = false;
+            document.getElementById("cashout-btn").disabled = true;
+            updateStreakMeterVisualArrays();
+        }
+        // 💰 SECURE MANUALLY TRIGGERED CASHOUT SETTLE CONTROLLER
+        async function handleManualCashoutCollect() {
+            if (!isRoundActive || isKickingAction) return;
+            isKickingAction = true;
+            playAudio('win');
+
+            try {
+                const response = await fetch(`${SERVER_URL}/api/penalty-balance?userId=${urlUserId}&wallet=${urlWallet}`);
+                const data = await response.json();
+                if (data && data.success) {
+                    balance = parseFloat(data.balance);
+                    document.getElementById("user-balance").innerText = balance.toFixed(2);
+                }
+                document.getElementById("win-status-box").className = "win-status-container win-glow-bar";
+                document.getElementById("win-text-msg").innerText = `🏆 CASHOUT SUCCESSFUL! Vault profits secured in account wallet.`;
+            } catch(e){ console.error("Cashout pipeline fail check pass"); }
+
+            clearActiveStreakContexts();
+            propagateWalletRefreshEvents();
+            isKickingAction = false;
+        }
+
+        function propagateWalletRefreshEvents() {
+            if (window.parent) window.parent.postMessage({ action: "refresh_wallet" }, "*");
+            if (window.top) window.top.postMessage({ action: "refresh_wallet" }, "*");
+        }
+
+        // 🔌 BACKEND BALANCE REALTIME PUSH STREAM INTERCEPTOR
+        if (typeof io !== 'undefined') {
+            const socket = io();
+            socket.on("balanceUpdate", (data) => {
+                if (data && data.username === urlUserId) {
+                    fetchLiveBalance();
+                }
+            });
+        }
+
+        async function fetchLiveBalance() {
+            try {
+                const response = await fetch(`${SERVER_URL}/api/penalty-balance?userId=${urlUserId}&wallet=${urlWallet}`);
+                const data = await response.json();
+                if (data && data.success) {
+                    balance = parseFloat(data.balance);
+                    document.getElementById("user-balance").innerText = balance.toFixed(2);
+                    propagateWalletRefreshEvents();
+                }
+            } catch (e) { console.error("Balance synchronization hook bypass"); }
+        }
+
+        window.onload = () => {
+            fetchLiveBalance();
+        };
+
+        // 🎛️ BET INCREMENT NAVIGATION MANAGER
+        function adjustStakeCaliber(action) {
+            if (isRoundActive || isKickingAction) return;
+            if (action === 'minus' && currentBet > 1) {
+                if (currentBet <= 10) currentBet -= 1;
+                else if (currentBet <= 100) currentBet -= 10;
+                else if (currentBet <= 1000) currentBet -= 100;
+                else currentBet -= 500;
+            }
+            if (action === 'plus' && currentBet < 20000) {
+                if (currentBet < 10) currentBet += 1;
+                else if (currentBet < 100) currentBet += 10;
+                else if (currentBet < 1000) currentBet += 100;
+                else currentBet += 500;
+            }
+            if (currentBet < 1) currentBet = 1;
+            if (currentBet > 20000) currentBet = 20000;
+            
+            document.getElementById("bet-display").innerText = `৳${currentBet}`;
+            playAudio('click');
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            document.getElementById("mute-btn").innerText = isMuted ? "🔇" : "🔊";
+            Object.values(slotSounds).forEach(s => s.muted = isMuted);
+        }
+
+        // 🎯 DISCRETE CASINO AUDIO CHANNEL MAPPING LINK
+        const slotSounds = {
+            click: new Audio('click2.mp3'),
+            spin: new Audio('spin2.mp3'), 
+            win: new Audio('win2.mp3'),
+            wheel: new Audio('wheel1.mp3')
+        };
+        Object.values(slotSounds).forEach(s => s.load());
+
+        function playAudio(type) { 
+            if (isMuted) return; 
+            try { 
+                slotSounds[type].currentTime = 0; 
+                slotSounds[type].play(); 
+            } catch(e){} 
+        }
+    </script>
+</body>
+</html>
+
+        
