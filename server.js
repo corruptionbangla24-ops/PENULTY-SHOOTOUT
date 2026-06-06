@@ -148,5 +148,5 @@ app.get('/', (req, res) => { res.sendFile(path.resolve(__dirname, 'index.html'))
 io.on('connection', (socket) => {});
 
 // ⚡ কাস্টম নোড সার্ভার পোর্ট গেটওয়ে লাইভ অন ফায়ার (৪০০০০ পোর্টে ডেডিকেটেড সিঙ্ক লক!)
-const PORT = process.env.PORT || 6400; 
+const PORT = process.env.PORT || 7400; 
 server.listen(PORT, () => { console.log(`⚽ Penalty Shot Crash Engine Running on port ${PORT}`); });
