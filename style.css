@@ -1,0 +1,168 @@
+/* ===================================================================================
+   ⚽ PENALTY SHOT CRASH - LIVE CASINO MASTER STYLESHEET (বাটন ওপরে লিফটিং বর্ম)
+   =================================================================================== */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #05070c;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #ffffff;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* 🔒 [মেগা কিলার হেডার BLOKER বর্ম ভাই ভাই]: লবির মেইন হেডারের সাথে ডাবল বক্স জ্যাম ওয়ান-শটে সাফ! */
+.header {
+    display: none !important;
+}
+
+/* 🏟️ ক্যাসিনো মেইন ডার্ক পিচ-সবুজ চাদর সিঙ্ক */
+body {
+    background: radial-gradient(circle at center, #06140c 0%, #020503 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    position: relative;
+}
+
+/* 🏟️ ওরিজিনাল পেনাল্টি নেট এরিনা ক্যানভাস Wrapper */
+.game-stadium-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    height: 295px; /* ওস্তাদ, বাটন ওপরে তোলার জায়গা করতে ক্যানভাস হাইট ১৫ পিক্সেল কম্প্যাক্ট লক ভাই ভাই */
+    margin: 15px auto 0 auto;
+    background: linear-gradient(180deg, #091a10 0%, #030805 100%);
+    border: 4px solid #00ff88;
+    border-radius: 24px;
+    box-shadow: 0 0 30px rgba(0,255,136,0.25), inset 0 0 25px rgba(0,0,0,0.9);
+    padding: 10px 8px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+/* 🎯 মাল্টিপ্লায়ার সিঁড়ি গ্রিড লেআউট */
+.multiplier-ladder-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    width: 100%;
+    max-width: 450px;
+    margin: 4px auto;
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+
+.ladder-step-node {
+    flex: 1;
+    background: #111522;
+    border: 1px solid #20293d;
+    padding: 6px 0;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #4b5563;
+}
+
+.ladder-step-node.active {
+    background: rgba(0, 255, 136, 0.15);
+    border-color: #00ff88;
+    color: #00ff88;
+    box-shadow: 0 0 8px rgba(0,255,136,0.3);
+}
+
+/* 📢 লাইভ মেসেজ স্ট্যাটাস বার */
+.win-status-container {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 10px;
+    margin: 4px 12px;
+    background: rgba(9, 12, 18, 0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.02);
+}
+
+#win-text-msg {
+    font-size: 12px;
+    font-weight: 700;
+    color: #00ff88;
+    letter-spacing: 0.3px;
+}
+
+/* 🎛️ নিচের মেইন গেম কন্ট্রোল প্যানেল ফুটার (মোবাইলের ফুল ফ্রেমে ওয়ান-শটে ওপরে লিফটিং লক ওস্তাদ!) */
+.footer-controls {
+    position: relative;
+    z-index: 50; 
+    background: #07090e;
+    border-top: 1px solid #161b29;
+    padding: 20px 15px 50px 15px; /* 👈 ওস্তাদ! প্যাডিং বাড়িয়ে মেইন বাটন প্যানেলটিকে কাটায় কাটায় ২৫ পিক্সেল ওপরে লিফটিং লক! */
+    box-shadow: 0 -8px 25px rgba(0,0,0,0.7);
+}
+
+.play-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    max-width: 450px;
+    margin: 0 auto;
+    margin-bottom: 25px; /* 👈 এই ক্রুশিয়াল লাইনের কারণে স্টেক বোতাম কোনোভাবে নিচে নামবে না ওস্তাদ! */
+}
+
+/* প্লাস-মাইনাস নব */
+.bet-btn-nav {
+    background: #111522;
+    border: 1px solid #20293d;
+    color: #00ff88;
+    font-size: 18px;
+    font-weight: 800;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 🚀 মেইন স্পিন অ্যাকশন বোতাম (SPIN কিলার গোল্ডেন গ্রিন গ্লো) */
+.play-btn {
+    flex: 1;
+    background: linear-gradient(180deg, #00ff88 0%, #008f4c 100%);
+    color: #000000;
+    font-size: 16px;
+    font-weight: 900;
+    border: none;
+    padding: 12px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0,255,136,0.3);
+    transition: all 0.15s ease;
+}
+
+.play-btn:active {
+    transform: scale(0.96);
+}
+
+.play-btn:disabled {
+    background: #141721 !important;
+    border-color: #1f2536 !important;
+    color: #4b5563 !important;
+    box-shadow: none !important;
+    cursor: not-allowed;
+}
+
+/* 💥 উইন-লস নিয়ন গলোয়িং বর্ডার বর্ম */
+.win-glow-bar { border-color: rgba(0, 255, 136, 0.4) !important; background: rgba(0, 255, 136, 0.05) !important; }
+.win-glow-bar #win-text-msg { color: #00ff88 !important; }
+.lose-glow-bar { border-color: rgba(255, 51, 102, 0.4) !important; background: rgba(255, 51, 102, 0.05) !important; }
+.lose-glow-bar #win-text-msg { color: #ff3366 !important; }
